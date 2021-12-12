@@ -1,1 +1,6 @@
 /* Styles */
+div .card {
+    background-color: red;
+    height: 100px;
+    width: 50px;
+}
