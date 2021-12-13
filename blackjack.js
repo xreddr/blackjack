@@ -1,6 +1,8 @@
 var suits = ["spades", "diamonds", "clubs", "hearts"];
 var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 let deck;
+let playerHand = [];
+let dealerHand = [];
 
 function getDeck() {
     deck = [];
@@ -44,6 +46,38 @@ function render(deck) {
         card.className = "card";
         card.innerHTML = deck[i].Value + "<br>" + icon;
         document.getElementById("deck").appendChild(card);
+    }
+}
+
+function deal() {
+    //let card = deck.pop();
+    //return card;
+    let card = deck.pop();
+    playerHand.push(card);
+    render(deck);
+    renderHand(playerHand);
+    return card;
+}
+
+function renderHand(hand) {
+    document.getElementById("playerHand").innerHTML = "";
+    for(let i = 0; i < hand.length; i++) {
+        let card = document.createElement("div");
+        var icon = '';
+        if (hand[i].Suit == 'hearts') {
+            icon = "&hearts;";
+            card.style.color = "red";
+        }else if (hand[i].Suit == 'spades') {
+            icon = "&spades;";
+        }else if (hand[i].Suit == 'diamonds') {
+            icon = "&diams;";
+            card.style.color = "red";
+        }else {
+            icon = "&clubs;";
+        }
+        card.className = "card";
+        card.innerHTML = hand[i].Value + "<br>" + icon;
+        document.getElementById("playerHand").appendChild(card);
     }
 }
 render(shuffle(getDeck()));
