@@ -10,11 +10,17 @@ body {
     flex-flow: row wrap;
 }
 
-#playerHand {
+#pHand {
     display: flex;
     flex-direction: row;
     justify-content: center;
     border: 2px solid goldenrod;
+}
+#dHand {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 2px solid black;
 }
 .card {
     background-color: white;

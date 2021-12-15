@@ -1,8 +1,8 @@
 var suits = ["spades", "diamonds", "clubs", "hearts"];
 var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 let deck;
-let playerHand = [];
-let dealerHand = [];
+let pHand = [];
+let dHand = [];
 
 function getDeck() {
     deck = [];
@@ -27,57 +27,43 @@ function shuffle(deck) {
     return deck;
 }
 
-function render(deck) {
-    document.getElementById("deck").innerHTML = "";
-    for(let i = 0; i < deck.length; i++) {
+function render(cards, l) {
+    document.getElementById(l).innerHTML = "";
+    for(let i = 0; i < cards.length; i++) {
         let card = document.createElement("div");
         var icon = '';
-        if (deck[i].Suit == 'hearts') {
+        if (cards[i].Suit == 'hearts') {
             icon = "&hearts;";
             card.style.color = "red";
-        }else if (deck[i].Suit == 'spades') {
+        }else if (cards[i].Suit == 'spades') {
             icon = "&spades;";
-        }else if (deck[i].Suit == 'diamonds') {
+        }else if (cards[i].Suit == 'diamonds') {
             icon = "&diams;";
             card.style.color = "red";
         }else {
             icon = "&clubs;";
         }
         card.className = "card";
-        card.innerHTML = deck[i].Value + "<br>" + icon;
-        document.getElementById("deck").appendChild(card);
+        card.innerHTML = cards[i].Value + "<br>" + icon;
+        document.getElementById(l).appendChild(card);
     }
 }
 
-function deal() {
+function deal(player) {
     let card = deck.pop();
-    playerHand.push(card);
-    render(deck);
-    renderHand(playerHand);
+    player.push(card);
+    render(deck, "deck");
+    if (player == pHand) {
+        render(player, "pHand");
+    }else if (player == dHand) {
+        render(player, "dHand");
+    }else {
+        console.log("Can't deal");
+    }
+    
     return card;
 }
 
-function renderHand(hand) {
-    document.getElementById("playerHand").innerHTML = "";
-    for(let i = 0; i < hand.length; i++) {
-        let card = document.createElement("div");
-        var icon = '';
-        if (hand[i].Suit == 'hearts') {
-            icon = "&hearts;";
-            card.style.color = "red";
-        }else if (hand[i].Suit == 'spades') {
-            icon = "&spades;";
-        }else if (hand[i].Suit == 'diamonds') {
-            icon = "&diams;";
-            card.style.color = "red";
-        }else {
-            icon = "&clubs;";
-        }
-        card.className = "card";
-        card.innerHTML = hand[i].Value + "<br>" + icon;
-        document.getElementById("playerHand").appendChild(card);
-    }
-}
-render(shuffle(getDeck()));
+render(shuffle(getDeck()), "deck");
 
 
