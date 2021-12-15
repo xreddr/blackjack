@@ -50,8 +50,6 @@ function render(deck) {
 }
 
 function deal() {
-    //let card = deck.pop();
-    //return card;
     let card = deck.pop();
     playerHand.push(card);
     render(deck);
@@ -81,8 +79,5 @@ function renderHand(hand) {
     }
 }
 render(shuffle(getDeck()));
-
-//document.getElementById("deck").style.color = "red";
-
 
 
