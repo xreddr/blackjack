@@ -1,17 +1,31 @@
-var suits = ["spades", "diamonds", "clubs", "hearts"];
-var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-let deck;
-let player1 = {
+let deck = getDeck();
+const player1 = {
     hand: [],
     seat: "player1"
 };
-let dealer = {
+
+const dealer = {
     hand: [],
-    seat: "dealer"
+    seat: "dealer",
+    deal: function(player) {
+        let card = deck.pop();
+        player.hand.push(card);
+        render(deck, "deck");
+        render(player.hand, player.seat);
+        return card;
+    },
+    dealRound: function() {
+        this.deal(player1);
+        this.deal(dealer);
+        this.deal(player1);
+        this.deal(dealer);
+    }
 };
 
 function getDeck() {
-    deck = [];
+    var suits = ["spades", "diamonds", "clubs", "hearts"];
+    var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+    let deck = [];
     for(let i = 0; i < suits.length; i++) {
         for(let x = 0; x < values.length; x++) {
             let card = {Value: values[x], Suit: suits[i]};
@@ -30,6 +44,7 @@ function shuffle(deck) {
         deck[location1] = deck[location2];
         deck[location2] = tmp;
     }
+    render(deck, "deck");
     return deck;
 }
 
@@ -55,14 +70,15 @@ function render(cards, l) {
     }
 }
 
-function deal(player) {
-    let card = deck.pop();
-    player.hand.push(card);
-    render(deck, "deck");
-    render(player.hand, player.seat);
-    return card;
+function score(player) {
+    let playerScore = 0;
+    let points = {
+        "K": 10,
+        "J": 10,
+    };
+    for(let i = 0; i < player.hand.length; i++) {
+        console.log(player.hand[i].Value); 
+    }
 }
 
-render(shuffle(getDeck()), "deck");
-
-
+render(deck, "deck");
