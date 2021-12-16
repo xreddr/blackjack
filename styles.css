@@ -10,13 +10,13 @@ body {
     flex-flow: row wrap;
 }
 
-#pHand {
+#player1 {
     display: flex;
     flex-direction: row;
     justify-content: center;
     border: 2px solid goldenrod;
 }
-#dHand {
+#dealer {
     display: flex;
     flex-direction: row;
     justify-content: center;

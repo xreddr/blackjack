@@ -1,8 +1,14 @@
 var suits = ["spades", "diamonds", "clubs", "hearts"];
 var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 let deck;
-let pHand = [];
-let dHand = [];
+let player1 = {
+    hand: [],
+    seat: "player1"
+};
+let dealer = {
+    hand: [],
+    seat: "dealer"
+};
 
 function getDeck() {
     deck = [];
@@ -51,16 +57,9 @@ function render(cards, l) {
 
 function deal(player) {
     let card = deck.pop();
-    player.push(card);
+    player.hand.push(card);
     render(deck, "deck");
-    if (player == pHand) {
-        render(player, "pHand");
-    }else if (player == dHand) {
-        render(player, "dHand");
-    }else {
-        console.log("Can't deal");
-    }
-    
+    render(player.hand, player.seat);
     return card;
 }
 
