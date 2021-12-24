@@ -29,6 +29,13 @@ const dealer = {
         this.deal(player1);
         this.deal(dealer);
         remove("dealRound");
+    },
+    play: function(score) {
+        if(score <= 16) {
+            this.deal(dealer);
+            this.play(dealer.score);
+        }else{
+        }
     }
 };
 // Deck Functions
@@ -63,6 +70,7 @@ function shuffle(deck) {
 // Rendering Cards
 // Render Score
 // Calculating Scores
+// Change Button Display
 function render(cards, l) {
     document.getElementById(l).innerHTML = "";
     for(let i = 0; i < cards.length; i++) {
@@ -112,12 +120,28 @@ function score(player) {
 function renderScore(player) {
     let score = document.createElement("div");
     score.className = "score";
-    score.innerHTML = player.score;
+    if(player.score <= 21) {
+        score.innerHTML = player.score;
+    }else {
+        score.innerHTML = "Bust!";
+        dealer.play(dealer.score);
+    }
     document.getElementById(player.seat).appendChild(score);
 }
 
 function remove(button) {
     document.getElementById(button).style.display = "none";
+    document.getElementById("hit").style.display = "flex";
+    document.getElementById("stay").style.display = "flex";
 }
+
+//function compare(p1, p2) {
+//    let result = document.createElement("div");
+//    result.className = "result";
+//    if(p1.score < 22 && p1.score > p2.score) {
+//        resutl.innerHTML = "Player 1 Wins!";
+//    }else {result.innerHTML = "Dealer Wins";}
+//    document.getElementById("dealer").appendChild(result);
+//}
 
 render(deck, "deck");

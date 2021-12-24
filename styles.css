@@ -5,6 +5,11 @@ body {
     background-color: darkgreen;
 }
 
+#deck {
+    display: none;
+    flex-flow: row wrap;
+}
+
 nav {
     display: flex;
     flex-direction: row;
@@ -29,10 +34,10 @@ nav a {
     display: none;
 }
 
-#deck {
-    display: none;
-    flex-flow: row wrap;
+#hit, #stay {
+    display:none;
 }
+
 
 #player1, #dealer {
     display: flex;
