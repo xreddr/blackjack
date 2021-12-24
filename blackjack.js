@@ -1,11 +1,13 @@
 let deck = getDeck();
 const player1 = {
     hand: [],
+    score: 0,
     seat: "player1"
 };
 
 const dealer = {
     hand: [],
+    score: 0,
     seat: "dealer",
     deal: function(player) {
         let card = deck.pop();
@@ -73,7 +75,8 @@ function render(cards, l) {
 
 
 function score(player) {
-    let playerScore = 0;
+    player.score = 0;
+    let hand = [];
     let points = {
         "K": 10,
         "Q": 10,
@@ -91,14 +94,20 @@ function score(player) {
     };
     for(let i = 0; i < player.hand.length; i++) {
         let s = player.hand[i].Value;
+        hand.push(s);
         console.log(points[s]);
-        playerScore = playerScore + points[s];
-        
+        player.score = player.score + points[s];
     }
-    if(playerScore > 21 && player.hand.Value == "A") {
-            playerScore = playerScore - 10;
-    }else {}
-    return playerScore;
+    if (player.score > 21) {
+        for(let i = 0; i < hand.length; i++) {
+            let c = hand[i];
+            console.log(c);
+            if (c == "A") {
+                player.score = player.score - 10;
+            }else{}
+        }
+    }else{}
+    return player.score;
 }
 
 render(deck, "deck");
