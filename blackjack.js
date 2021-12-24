@@ -1,3 +1,7 @@
+// Game Objects
+// Deck Objects
+// Player1
+// Dealer
 let deck = getDeck();
 const player1 = {
     hand: [],
@@ -23,7 +27,9 @@ const dealer = {
         this.deal(dealer);
     }
 };
-
+// Deck Functions
+// Create Deck
+// Shuffle Deck
 function getDeck() {
     var suits = ["spades", "diamonds", "clubs", "hearts"];
     var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
@@ -49,7 +55,9 @@ function shuffle(deck) {
     render(deck, "deck");
     return deck;
 }
-
+// System Functions
+// Rendering Items
+// Calculating Scores
 function render(cards, l) {
     document.getElementById(l).innerHTML = "";
     for(let i = 0; i < cards.length; i++) {
@@ -72,26 +80,11 @@ function render(cards, l) {
     }
 }
 
-
-
 function score(player) {
     player.score = 0;
     let hand = [];
-    let points = {
-        "K": 10,
-        "Q": 10,
-        "J": 10,
-        "10": 10,
-        "9": 9,
-        "8": 8,
-        "7": 7,
-        "6": 6,
-        "5": 5,
-        "4": 4,
-        "3": 3,
-        "2": 2,
-        "A": 11
-    };
+    let points = {"K": 10,"Q": 10,"J": 10,"10": 10,"9": 9,"8": 8,
+    "7": 7,"6": 6,"5": 5,"4": 4,"3": 3,"2": 2,"A": 11};
     for(let i = 0; i < player.hand.length; i++) {
         let s = player.hand[i].Value;
         hand.push(s);

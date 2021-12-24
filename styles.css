@@ -5,6 +5,26 @@ body {
     background-color: darkgreen;
 }
 
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: purple;
+    border-radius: 50%;
+}
+
+nav a {
+    display: flex;
+    border: solid 2px black;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-color: goldenrod;
+    font-size: x-large;
+}
+
 #deck {
     display: flex;
     flex-flow: row wrap;
