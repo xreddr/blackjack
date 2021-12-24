@@ -30,7 +30,7 @@ nav a {
 }
 
 #deck {
-    display: flex;
+    display: none;
     flex-flow: row wrap;
 }
 
