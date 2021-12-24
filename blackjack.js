@@ -3,6 +3,7 @@
 // Player1
 // Dealer
 let deck = getDeck();
+
 const player1 = {
     hand: [],
     score: 0,
@@ -18,13 +19,16 @@ const dealer = {
         player.hand.push(card);
         render(deck, "deck");
         render(player.hand, player.seat);
+        score(player);
         return card;
     },
     dealRound: function() {
+        shuffle(deck);
         this.deal(player1);
         this.deal(dealer);
         this.deal(player1);
         this.deal(dealer);
+        remove("dealRound");
     }
 };
 // Deck Functions
@@ -56,7 +60,8 @@ function shuffle(deck) {
     return deck;
 }
 // System Functions
-// Rendering Items
+// Rendering Cards
+// Render Score
 // Calculating Scores
 function render(cards, l) {
     document.getElementById(l).innerHTML = "";
@@ -100,7 +105,19 @@ function score(player) {
             }else{}
         }
     }else{}
+    renderScore(player);
     return player.score;
+}
+
+function renderScore(player) {
+    let score = document.createElement("div");
+    score.className = "score";
+    score.innerHTML = player.score;
+    document.getElementById(player.seat).appendChild(score);
+}
+
+function remove(button) {
+    document.getElementById(button).style.display = "none";
 }
 
 render(deck, "deck");

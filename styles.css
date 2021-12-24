@@ -25,23 +25,29 @@ nav a {
     font-size: x-large;
 }
 
+#shuffle {
+    display: none;
+}
+
 #deck {
     display: flex;
     flex-flow: row wrap;
 }
 
-#player1 {
+#player1, #dealer {
     display: flex;
     flex-direction: row;
     justify-content: center;
     border: 2px solid goldenrod;
+    margin: 1rem auto 1rem auto;
+    height: 100px;
+    width: 50%;
+    border-radius: 35%;
 }
 #dealer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    border: 2px solid black;
+    border-color: black;
 }
+
 .card {
     background-color: white;
     display: flex;
@@ -54,4 +60,13 @@ nav a {
     height: 100px;
     width: 50px;
     margin: 1px;
+}
+
+.score {
+    margin: auto 1rem auto 1rem;
+    color: goldenrod;
+    font-size: 3rem;
+    background-color: purple;
+    border-radius: 50%;
+    border: 10px solid purple;
 }
