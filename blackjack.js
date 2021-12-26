@@ -7,17 +7,19 @@ let deck = getDeck();
 const player1 = {
     hand: [],
     score: 0,
+    chips: 0,
     seat: "player1"
 };
 
 const dealer = {
     hand: [],
     score: 0,
+    chips: 0,
     seat: "dealer",
     deal: function(player) {
         let card = deck.pop();
         player.hand.push(card);
-        render(deck, "deck");
+        //render(deck, "deck");
         render(player.hand, player.seat);
         score(player);
         return card;
@@ -31,10 +33,13 @@ const dealer = {
         remove("dealRound");
     },
     play: function(score) {
-        if(score <= 16) {
+        document.getElementById("hit").style.display = "none";
+        document.getElementById("stay").style.display = "none";
+        if(score > 0 && score <= 16) {
             this.deal(dealer);
             this.play(dealer.score);
         }else{
+            compare(player1, dealer);
         }
     }
 };
@@ -124,6 +129,7 @@ function renderScore(player) {
         score.innerHTML = player.score;
     }else {
         score.innerHTML = "Bust!";
+        player.score = 0;
         dealer.play(dealer.score);
     }
     document.getElementById(player.seat).appendChild(score);
@@ -135,13 +141,22 @@ function remove(button) {
     document.getElementById("stay").style.display = "flex";
 }
 
-//function compare(p1, p2) {
-//    let result = document.createElement("div");
-//    result.className = "result";
-//    if(p1.score < 22 && p1.score > p2.score) {
-//        resutl.innerHTML = "Player 1 Wins!";
-//    }else {result.innerHTML = "Dealer Wins";}
-//    document.getElementById("dealer").appendChild(result);
-//}
+function compare(p1, p2) {
+    let result = document.getElementById("result");
+    if(p1.score > p2.score) {
+        result.innerHTML = "Player 1 Wins!";
+    }else {result.innerHTML = "Dealer Wins";}
+    result.style.border = "3px solid goldenrod";
+}
 
 render(deck, "deck");
+
+function start() {
+    shuffle(deck);
+    dealer.dealRound(); // Redundant shuffle()
+    score(player1);
+}
+
+function playerTurn() {
+    
+}
