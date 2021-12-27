@@ -87,21 +87,6 @@ nav a {
     margin: 1px;
 }
 
-.downcard {
-    background-color: red;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 2rem;
-    justify-content: space-around;
-    border: 2px solid black;
-    border-radius: 10%;
-    height: 100px;
-    width: 50px;
-    margin: 1px;
-}
-
 .score {
     margin: auto 1rem auto 1rem;
     color: goldenrod;

@@ -74,7 +74,7 @@ function shuffle(deck) {
 
 /// Rendering
 // Refresh
-// Change Turn Buttons
+// Dealer Card Down
 class Render {
     constructor(player) {
         this.player = player;
@@ -104,9 +104,9 @@ class Render {
     }
     cardDown() {
         let dc = document.getElementById(this.player.seat).lastChild;
-        dc.className = "downcard";
         dc.innerHTML = "B<br>J";
         dc.style.color = "black";
+        dc.style.background = "red";
     }
     score() {
         let score = document.createElement("div");
@@ -134,29 +134,25 @@ function refresh(player) {
     r.score();
 }
 
+// Game Flow
 function naturals() {
     score(dealer);
-    if(dealer.score == 21) {
-        dealerTurn();
-    }else{playerTurn();}
     score(player1);
     refresh(player1);
-    if(player1.score == 21) {
-        compare(player1, dealer);
-    }else{playerTurn();}
+    if(dealer.score == 21) {
+        endPlayerTurn();
+        dealerTurn();
+    }else{playerTurn();}    
 }
 
 function playerTurn() {
     document.getElementById("dealRound").style.display = "none";
     document.getElementById("hit").style.display = "flex";
     document.getElementById("stay").style.display = "flex";
-}
-
-function dealerTurn() {
-    document.getElementById("hit").style.display = "none";
-    document.getElementById("stay").style.display = "none";
-    refresh(dealer);
-    dealer.play();
+    if(player1.score == 21) {
+        endPlayerTurn();
+        compare(player1, dealer);
+    }else{}
 }
 
 function hit(player) {
@@ -164,8 +160,24 @@ function hit(player) {
     score(player);
     refresh(player);
     if(player.score == 0) {
-        dealerTurn();
+        stay();
     }else{}
+}
+
+function stay() {
+    endPlayerTurn();
+    dealerTurn();
+}
+
+function endPlayerTurn() {
+    document.getElementById("dealRound").style.display = "none";
+    document.getElementById("hit").style.display = "none";
+    document.getElementById("stay").style.display = "none";
+}
+
+function dealerTurn() {
+    refresh(dealer);
+    dealer.play();
 }
 
 /// Scoring
