@@ -1,7 +1,7 @@
-// Deck
+/// Deck
 let deck = getDeck();
 
-// Players
+/// Players
 class Player {
     constructor(seat) {
         this.hand = [];
@@ -13,7 +13,7 @@ class Player {
 
 let player1 = new Player("player1");
 
-// Dealer
+/// Dealer
 const dealer = {
     hand: [],
     score: 0,
@@ -21,8 +21,6 @@ const dealer = {
     deal: function(player) {
         let card = deck.pop();
         player.hand.push(card);
-        score(player);
-        refresh(player);
         return card;
     },
     dealRound: function() {
@@ -31,25 +29,22 @@ const dealer = {
         this.deal(dealer);
         this.deal(player1);
         this.deal(dealer);
-        document.getElementById("dealRound").style.display = "none";
-        document.getElementById("hit").style.display = "flex";
-        document.getElementById("stay").style.display = "flex";
-        renDealer.cardsUp();
-        refresh(player1);
+        coverCard();
+        naturals();
     },
-    play: function(score) {
-        document.getElementById("hit").style.display = "none";
-        document.getElementById("stay").style.display = "none";
-        refresh(dealer);
-        if(score > 0 && score <= 16) {
+    play: function() {
+        if(this.score > 0 && this.score < 17) {
             this.deal(dealer);
-            this.play(dealer.score);
+            score(dealer);
+            refresh(dealer);
+            this.play();
         }else{
             compare(player1, dealer);
         }
     }
 };
-// Deck Functions
+
+/// Deck Functions
 // Create Deck
 // Shuffle Deck
 function getDeck() {
@@ -76,7 +71,10 @@ function shuffle(deck) {
     }
     return deck;
 }
-// Rendering
+
+/// Rendering
+// Refresh
+// Change Turn Buttons
 class Render {
     constructor(player) {
         this.player = player;
@@ -104,6 +102,12 @@ class Render {
             document.getElementById(l).appendChild(card);
         }
     }
+    cardDown() {
+        let dc = document.getElementById(this.player.seat).lastChild;
+        dc.className = "downcard";
+        dc.innerHTML = "B<br>J";
+        dc.style.color = "black";
+    }
     score() {
         let score = document.createElement("div");
         score.className = "score";
@@ -112,13 +116,17 @@ class Render {
         }else {
             score.innerHTML = "Bust!";
             this.player.score = 0;
-            dealer.play(dealer.score);
+            //dealerTurn();
         }
         document.getElementById(this.player.seat).appendChild(score);
     }
 }
 
-let renDealer = new Render(dealer);
+function coverCard() {
+    let f = new Render(dealer);
+    f.cardsUp();
+    f.cardDown();
+}
 
 function refresh(player) {
     let r = new Render(player);
@@ -126,7 +134,41 @@ function refresh(player) {
     r.score();
 }
 
-// Scoring
+function naturals() {
+    score(dealer);
+    if(dealer.score == 21) {
+        dealerTurn();
+    }else{playerTurn();}
+    score(player1);
+    refresh(player1);
+    if(player1.score == 21) {
+        compare(player1, dealer);
+    }else{playerTurn();}
+}
+
+function playerTurn() {
+    document.getElementById("dealRound").style.display = "none";
+    document.getElementById("hit").style.display = "flex";
+    document.getElementById("stay").style.display = "flex";
+}
+
+function dealerTurn() {
+    document.getElementById("hit").style.display = "none";
+    document.getElementById("stay").style.display = "none";
+    refresh(dealer);
+    dealer.play();
+}
+
+function hit(player) {
+    dealer.deal(player);
+    score(player);
+    refresh(player);
+    if(player.score == 0) {
+        dealerTurn();
+    }else{}
+}
+
+/// Scoring
 // Get Score
 // Compare
 function score(player) {
