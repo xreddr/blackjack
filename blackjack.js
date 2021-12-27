@@ -1,9 +1,7 @@
-// Game Objects
-// Deck Objects
-// Player1
-// Dealer
+// Deck
 let deck = getDeck();
 
+// Players
 class Player {
     constructor(seat) {
         this.hand = [];
@@ -15,6 +13,7 @@ class Player {
 
 let player1 = new Player("player1");
 
+// Dealer
 const dealer = {
     hand: [],
     score: 0,
@@ -23,7 +22,7 @@ const dealer = {
         let card = deck.pop();
         player.hand.push(card);
         score(player);
-        render(player);
+        refresh(player);
         return card;
     },
     dealRound: function() {
@@ -35,10 +34,13 @@ const dealer = {
         document.getElementById("dealRound").style.display = "none";
         document.getElementById("hit").style.display = "flex";
         document.getElementById("stay").style.display = "flex";
+        renDealer.cardsUp();
+        refresh(player1);
     },
     play: function(score) {
         document.getElementById("hit").style.display = "none";
         document.getElementById("stay").style.display = "none";
+        refresh(dealer);
         if(score > 0 && score <= 16) {
             this.deal(dealer);
             this.play(dealer.score);
@@ -72,43 +74,56 @@ function shuffle(deck) {
         deck[location1] = deck[location2];
         deck[location2] = tmp;
     }
-    //render(deck, "deck");
     return deck;
 }
-
-function render(player) {
-    let cards = player.hand;
-    let l = player.seat;
-    document.getElementById(l).innerHTML = "";
-    for(let i = 0; i < cards.length; i++) {
-        let card = document.createElement("div");
-        var icon = '';
-        if (cards[i].Suit == 'hearts') {
-            icon = "&hearts;";
-            card.style.color = "red";
-        }else if (cards[i].Suit == 'spades') {
-            icon = "&spades;";
-        }else if (cards[i].Suit == 'diamonds') {
-            icon = "&diams;";
-            card.style.color = "red";
-        }else {
-            icon = "&clubs;";
+// Rendering
+class Render {
+    constructor(player) {
+        this.player = player;
+    }
+    cardsUp() {
+        let cards = this.player.hand;
+        let l = this.player.seat;
+        document.getElementById(l).innerHTML = "";
+        for(let i = 0; i < cards.length; i++) {
+            let card = document.createElement("div");
+            var icon = '';
+            if (cards[i].Suit == 'hearts') {
+                icon = "&hearts;";
+                card.style.color = "red";
+            }else if (cards[i].Suit == 'spades') {
+                icon = "&spades;";
+            }else if (cards[i].Suit == 'diamonds') {
+                icon = "&diams;";
+                card.style.color = "red";
+            }else {
+                icon = "&clubs;";
+            }
+            card.className = "card";
+            card.innerHTML = cards[i].Value + "<br>" + icon;
+            document.getElementById(l).appendChild(card);
         }
-        card.className = "card";
-        card.innerHTML = cards[i].Value + "<br>" + icon;
-        document.getElementById(l).appendChild(card);
     }
-    
-    let score = document.createElement("div");
-    score.className = "score";
-    if(player.score <= 21) {
-        score.innerHTML = player.score;
-    }else {
-        score.innerHTML = "Bust!";
-        player.score = 0;
-        dealer.play(dealer.score);
+    score() {
+        let score = document.createElement("div");
+        score.className = "score";
+        if(this.player.score <= 21) {
+            score.innerHTML = this.player.score;
+        }else {
+            score.innerHTML = "Bust!";
+            this.player.score = 0;
+            dealer.play(dealer.score);
+        }
+        document.getElementById(this.player.seat).appendChild(score);
     }
-    document.getElementById(player.seat).appendChild(score);
+}
+
+let renDealer = new Render(dealer);
+
+function refresh(player) {
+    let r = new Render(player);
+    r.cardsUp();
+    r.score();
 }
 
 // Scoring
