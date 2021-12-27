@@ -10,7 +10,7 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 main {
@@ -66,7 +66,7 @@ nav a {
     border: 2px solid goldenrod;
     margin: 1rem auto 1rem auto;
     height: 100px;
-    width: 50%;
+    width: 65%;
     border-radius: 35%;
 }
 #dealer {
