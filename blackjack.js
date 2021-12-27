@@ -4,24 +4,26 @@
 // Dealer
 let deck = getDeck();
 
-const player1 = {
-    hand: [],
-    score: 0,
-    chips: 0,
-    seat: "player1"
-};
+class Player {
+    constructor(seat) {
+        this.hand = [];
+        this.score = 0;
+        this.chips = 0;
+        this.seat = seat;
+    }
+}
+
+let player1 = new Player("player1");
 
 const dealer = {
     hand: [],
     score: 0,
-    chips: 0,
     seat: "dealer",
     deal: function(player) {
         let card = deck.pop();
         player.hand.push(card);
-        //render(deck, "deck");
-        render(player.hand, player.seat);
         score(player);
+        render(player);
         return card;
     },
     dealRound: function() {
@@ -30,7 +32,9 @@ const dealer = {
         this.deal(dealer);
         this.deal(player1);
         this.deal(dealer);
-        remove("dealRound");
+        document.getElementById("dealRound").style.display = "none";
+        document.getElementById("hit").style.display = "flex";
+        document.getElementById("stay").style.display = "flex";
     },
     play: function(score) {
         document.getElementById("hit").style.display = "none";
@@ -68,15 +72,13 @@ function shuffle(deck) {
         deck[location1] = deck[location2];
         deck[location2] = tmp;
     }
-    render(deck, "deck");
+    //render(deck, "deck");
     return deck;
 }
-// System Functions
-// Rendering Cards
-// Render Score
-// Calculating Scores
-// Change Button Display
-function render(cards, l) {
+
+function render(player) {
+    let cards = player.hand;
+    let l = player.seat;
     document.getElementById(l).innerHTML = "";
     for(let i = 0; i < cards.length; i++) {
         let card = document.createElement("div");
@@ -96,8 +98,22 @@ function render(cards, l) {
         card.innerHTML = cards[i].Value + "<br>" + icon;
         document.getElementById(l).appendChild(card);
     }
+    
+    let score = document.createElement("div");
+    score.className = "score";
+    if(player.score <= 21) {
+        score.innerHTML = player.score;
+    }else {
+        score.innerHTML = "Bust!";
+        player.score = 0;
+        dealer.play(dealer.score);
+    }
+    document.getElementById(player.seat).appendChild(score);
 }
 
+// Scoring
+// Get Score
+// Compare
 function score(player) {
     player.score = 0;
     let hand = [];
@@ -118,45 +134,16 @@ function score(player) {
             }else{}
         }
     }else{}
-    renderScore(player);
     return player.score;
-}
-
-function renderScore(player) {
-    let score = document.createElement("div");
-    score.className = "score";
-    if(player.score <= 21) {
-        score.innerHTML = player.score;
-    }else {
-        score.innerHTML = "Bust!";
-        player.score = 0;
-        dealer.play(dealer.score);
-    }
-    document.getElementById(player.seat).appendChild(score);
-}
-
-function remove(button) {
-    document.getElementById(button).style.display = "none";
-    document.getElementById("hit").style.display = "flex";
-    document.getElementById("stay").style.display = "flex";
 }
 
 function compare(p1, p2) {
     let result = document.getElementById("result");
     if(p1.score > p2.score) {
         result.innerHTML = "Player 1 Wins!";
-    }else {result.innerHTML = "Dealer Wins";}
+    }else if(p1.score == p2.score) {
+        result.innerHTML = "Draw";
+    }
+    else {result.innerHTML = "Dealer Wins";}
     result.style.border = "3px solid goldenrod";
-}
-
-render(deck, "deck");
-
-function start() {
-    shuffle(deck);
-    dealer.dealRound(); // Redundant shuffle()
-    score(player1);
-}
-
-function playerTurn() {
-    
 }
